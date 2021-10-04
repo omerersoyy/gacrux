@@ -6,7 +6,7 @@ const {Types, Creators} = createActions({
   searchSuccess: ['searchResults'],
   searchError: ['error'],
   getPlaceDetails: ['placeId'],
-  getPlaceDetailsSuccess: ['selectedPlace'],
+  getPlaceDetailsSuccess: ['placeDetails'],
   getPlaceDetailsError: ['error'],
 });
 
@@ -18,9 +18,7 @@ const INITIAL_STATE = Immutable({
   selectedPlace: {
     placeId: null,
     lat: null,
-    long: null,
-    address: null,
-    name: null,
+    lng: null,
   },
 });
 

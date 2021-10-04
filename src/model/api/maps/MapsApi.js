@@ -9,7 +9,7 @@ export const getMapsApi = () => {
     api.get(`/place/autocomplete/json?input=${query}&key=${KEY}`);
 
   const getDetailsById = id =>
-    api.get(`/details/json?place_id=${id}&key=${KEY}`);
+    api.get(`/place/details/json?place_id=${id}&key=${KEY}`);
 
   return {
     api,
