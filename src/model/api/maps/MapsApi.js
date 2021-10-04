@@ -3,7 +3,7 @@ import {createClient} from '../Client';
 
 export const getMapsApi = () => {
   const {MAPS_BASE_URL, KEY} = AppConfig
-  const api = createClient(MAPS_BASE_URL, null);
+  const api = createClient(MAPS_BASE_URL);
 
   const search = query =>
     api.get(`/place/autocomplete/json?input=${query}&key=${KEY}`);
