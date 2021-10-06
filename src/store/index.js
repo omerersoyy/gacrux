@@ -3,10 +3,11 @@ import rootSaga from '../store/middleware';
 import {createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import {mapsReducer} from './state/MapsState';
-
+import {videosReducer} from './state/VideosState';
 
 export const reducers = combineReducers({
   maps: mapsReducer,
+  videos: videosReducer,
 });
 
 const initializeStore = (rootReducer, rootSaga) => {

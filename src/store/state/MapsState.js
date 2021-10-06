@@ -9,6 +9,7 @@ const {Types, Creators} = createActions({
   getPlaceDetails: ['placeId'],
   getPlaceDetailsSuccess: ['placeDetails'],
   getPlaceDetailsError: ['error'],
+  setSelectedPlace: ['location'],
 });
 
 const INITIAL_STATE = Immutable({
@@ -57,6 +58,9 @@ export const resetSearchState = state => {
   });
 };
 
+export const setSelectedPlace = (state, {location}) =>
+  state.merge({selectedPlace: {placeId: null, ...location}});
+
 export const getPlaceDetails = (state, {placeId}) => {
   return state.merge({
     fetching: !INITIAL_STATE.fetching,
@@ -84,6 +88,7 @@ export const mapsReducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH_SUCCESS]: searchSuccess,
   [Types.SEARCH_ERROR]: searchError,
   [Types.RESET_SEARCH_STATE]: resetSearchState,
+  [Types.SET_SELECTED_PLACE]: setSelectedPlace,
   [Types.GET_PLACE_DETAILS]: getPlaceDetails,
   [Types.GET_PLACE_DETAILS_SUCCESS]: getPlaceDetailsSuccess,
   [Types.GET_PLACE_DETAILS_ERROR]: getPlaceDetailsError,

@@ -4,5 +4,5 @@ export default {
   info: '#e9c46a',
   background: '#f4a261',
   err: '#e76f51',
-  text: '#fff'
-}
+  text: '#fff',
+};
