@@ -5,6 +5,7 @@ const {Types, Creators} = createActions({
   search: ['searchInput'],
   searchSuccess: ['searchResults'],
   searchError: ['error'],
+  resetSearchState: null,
   getPlaceDetails: ['placeId'],
   getPlaceDetailsSuccess: ['placeDetails'],
   getPlaceDetailsError: ['error'],
@@ -47,6 +48,15 @@ export const searchError = (state, {error}) => {
   });
 };
 
+export const resetSearchState = state => {
+  return state.merge({
+    searchResults: INITIAL_STATE.searchResults,
+    searchInput: '',
+    error: '',
+    fetching: false,
+  });
+};
+
 export const getPlaceDetails = (state, {placeId}) => {
   return state.merge({
     fetching: !INITIAL_STATE.fetching,
@@ -69,12 +79,11 @@ export const getPlaceDetailsError = (state, {error}) => {
   });
 };
 
-
-
 export const mapsReducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH]: search,
   [Types.SEARCH_SUCCESS]: searchSuccess,
   [Types.SEARCH_ERROR]: searchError,
+  [Types.RESET_SEARCH_STATE]: resetSearchState,
   [Types.GET_PLACE_DETAILS]: getPlaceDetails,
   [Types.GET_PLACE_DETAILS_SUCCESS]: getPlaceDetailsSuccess,
   [Types.GET_PLACE_DETAILS_ERROR]: getPlaceDetailsError,

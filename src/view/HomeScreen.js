@@ -12,17 +12,15 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import MapView, {Marker} from 'react-native-maps';
 
 const HomeScreen = ({
   search,
   searchResults,
   selectedPlace,
   getPlaceDetails,
+  resetSearchState
 }) => {
-  useEffect(() => {
-    console.log(selectedPlace);
-  }, [selectedPlace]);
-
   const handleSearch = input => {
     if (input.length > 3) {
       search(input);
@@ -31,6 +29,7 @@ const HomeScreen = ({
 
   const handlePressSearchResultItem = placeId => {
     getPlaceDetails(placeId);
+    resetSearchState();
   };
 
   return (
@@ -39,7 +38,7 @@ const HomeScreen = ({
         flex: 1,
         backgroundColor: ColorScheme.background,
       }}>
-      <KeyboardAvoidingView style={{}}>
+      <KeyboardAvoidingView>
         <TextInput
           style={styles.input}
           placeholder={'Search for a place...'}
@@ -58,6 +57,25 @@ const HomeScreen = ({
             );
           })}
         </View>
+        {selectedPlace?.placeId !== null && (
+          <View style={{height: 300}}>
+            <MapView
+              style={{flex: 1}}
+              initialRegion={{
+                latitude: selectedPlace.lat,
+                longitude: selectedPlace.lng,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: selectedPlace.lat,
+                  longitude: selectedPlace.lng,
+                }}
+              />
+            </MapView>
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -95,6 +113,7 @@ const mapDispatchToProps = dispatch => {
   return {
     search: searchInput => dispatch(MapsActions.search(searchInput)),
     getPlaceDetails: placeId => dispatch(MapsActions.getPlaceDetails(placeId)),
+    resetSearchState: () => dispatch(MapsActions.resetSearchState()),
   };
 };
 
