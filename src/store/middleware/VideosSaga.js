@@ -1,11 +1,15 @@
-import {call, put} from 'redux-saga/effects';
+import {call, put, select} from 'redux-saga/effects';
 import VideosActions from '../state/VideosState';
 const R = require('ramda');
 
-export function* searchVideosByLocation(client, {location}) {
-  const response = yield call(client.searchByLocation, location);
+export function* searchVideosByLocation(client, {location, nextPageToken}) {
+  const response = yield call(client.searchByLocation, location, nextPageToken);
+  const previousVideos = !nextPageToken
+    ? []
+    : yield select(state => state.videos.searchResults);
 
   if (response.ok) {
+    let token = R.pathOr(null, ['data', 'nextPageToken'], response);
     let result = R.pathOr([], ['data', 'items'], response).map((v, _k) => {
       let videoId = R.pathOr(null, ['id', 'videoId'], v);
       let title = R.pathOr(null, ['snippet', 'title'], v);
@@ -23,11 +27,22 @@ export function* searchVideosByLocation(client, {location}) {
       };
     });
 
-    console.log(result);
-
-    yield put(VideosActions.searchVideosByLocationSuccess(result));
+    yield put(
+      VideosActions.searchVideosByLocationSuccess(
+        [...previousVideos, ...result],
+        token,
+      ),
+    );
   } else {
+    yield put(
+      VideosActions.searchVideosByLocationSuccess([
+        {
+          videoId: 'asdsad',
+          title: 'qweqweqweqweqweqw',
+          defaultThumbnail: 'https://img.youtube.com/vi/o95T698swZc/0.jpg',
+        },
+      ]),
+    );
     yield put(VideosActions.searchVideosByLocationError(response.error));
-    console.log(response);
   }
 }

@@ -2,10 +2,10 @@ import {createActions, createReducer} from 'reduxsauce/lib/reduxsauce';
 import Immutable from 'seamless-immutable';
 
 const {Types, Creators} = createActions({
-  searchVideosByLocation: ['location'],
-  searchVideosByLocationSuccess: ['searchResults'],
+  searchVideosByLocation: ['location', 'nextPageToken'],
+  searchVideosByLocationSuccess: ['searchResults', 'nextPageToken'],
   searchVideosByLocationError: ['error'],
-  resetSearchState: null,
+  resetVideosSearchState: null,
 });
 
 const INITIAL_STATE = Immutable({
@@ -13,23 +13,29 @@ const INITIAL_STATE = Immutable({
   fetching: false,
   searchResults: [],
   location: null,
+  nextPageToken: null,
 });
 
 export const VideosActionTypes = Types;
 export default Creators;
 
-export const searchVideosByLocation = (state, {location}) => {
+export const searchVideosByLocation = (state, {location, nextPageToken}) => {
   return state.merge({
     fetching: !INITIAL_STATE.fetching,
     error: INITIAL_STATE.error,
     location,
+    nextPageToken,
   });
 };
 
-export const searchVideosByLocationSuccess = (state, {searchResults}) => {
+export const searchVideosByLocationSuccess = (
+  state,
+  {searchResults, nextPageToken},
+) => {
   return state.merge({
     fetching: INITIAL_STATE.fetching,
     searchResults,
+    nextPageToken,
   });
 };
 
@@ -40,7 +46,7 @@ export const searchVideosByLocationError = (state, {error}) => {
   });
 };
 
-export const resetSearchState = state => {
+export const resetVideosSearchState = state => {
   return state.merge({
     searchResults: INITIAL_STATE.searchResults,
     location: null,
@@ -53,5 +59,5 @@ export const videosReducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH_VIDEOS_BY_LOCATION]: searchVideosByLocation,
   [Types.SEARCH_VIDEOS_BY_LOCATION_SUCCESS]: searchVideosByLocationSuccess,
   [Types.SEARCH_VIDEOS_BY_LOCATION_ERROR]: searchVideosByLocationError,
-  [Types.RESET_SEARCH_STATE]: resetSearchState,
+  [Types.RESET_VIDEOS_SEARCH_STATE]: resetVideosSearchState,
 });

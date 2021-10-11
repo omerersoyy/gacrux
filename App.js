@@ -1,15 +1,17 @@
 import React from 'react';
 import createStore from './src/store';
 import {Provider} from 'react-redux';
-import {SafeAreaView} from 'react-native';
-import HomeScreen from './src/view/HomeScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import MainNavigation from './src/view/navigation/MainNavigation';
 
 const {store} = createStore();
 
 const Root = () => (
-  <Provider store={store}>
-    <HomeScreen />
-  </Provider>
+  <NavigationContainer>
+    <Provider store={store}>
+      <MainNavigation />
+    </Provider>
+  </NavigationContainer>
 );
 
 export default Root;

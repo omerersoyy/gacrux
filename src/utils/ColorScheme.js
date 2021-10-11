@@ -5,4 +5,5 @@ export default {
   background: '#f4a261',
   err: '#e76f51',
   text: '#fff',
+  charcoal: '#36454F'
 };

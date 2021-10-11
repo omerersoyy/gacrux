@@ -7,7 +7,7 @@ export const getYoutubeApi = () => {
 
   const searchByLocation = (location, pageToken) =>
     api.get(
-      `search?part=snippet&location=${location}&locationRadius=10km&type=video${
+      `search?part=snippet&maxResults=10&location=${location}&locationRadius=10km&type=video${
         pageToken ? `&page_token=${pageToken}` : ''
       }&key=${YTB_KEY}`,
     );

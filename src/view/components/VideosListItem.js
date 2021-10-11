@@ -1,28 +1,35 @@
 import ColorScheme from '../../utils/ColorScheme';
 import React from 'react';
-import {View, Image, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-export const VideosListItem = ({
-  defaultThumbnail,
-  title,
-  videoId,
-  description,
-}) => {
+export const VideosListItem = ({defaultThumbnail, title, onPress}) => {
   return (
-    <TouchableOpacity style={style.container}>
+    <TouchableOpacity onPress={onPress} style={style.container}>
       <Image
-        style={{
-          width: '100%',
-          height: 200,
-          borderRadius: 5,
-          borderWidth: 1,
-          borderColor: ColorScheme.background,
-        }}
+        style={style.image}
         source={{
           uri: defaultThumbnail?.url,
         }}
       />
       <Text style={style.title}>{title}</Text>
+      <View style={style.overlay}>
+        <Icon
+          style={{
+            marginBottom: 9,
+          }}
+          name="play-circle"
+          size={40}
+          color={ColorScheme.text}
+        />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -30,16 +37,33 @@ export const VideosListItem = ({
 const style = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    margin: 10,
-    paddingVertical: 7,
+    padding: 11,
+    backgroundColor: ColorScheme.charcoal,
   },
   text: {
     color: ColorScheme.text,
   },
   title: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: '700',
     color: ColorScheme.text,
     marginTop: 5,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: ColorScheme.background,
+  },
+  overlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
